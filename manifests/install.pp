@@ -1,4 +1,4 @@
-class solr::install($solr_home,$version,$install_source) {
+class solr::install($solr_home,$version,$install_source) inherits solr::params {
 
   exec { "solr-download":
     command => "wget ${install_source}",
@@ -11,22 +11,17 @@ class solr::install($solr_home,$version,$install_source) {
   exec { "solr-inflate":
     command => "tar xzf ${version}.tgz",
     cwd => "/home/vagrant/",
-    creates => "/home/vagrant/apache-solr4/",
+    creates => "/home/vagrant/${version}/",
     path => "/bin/",
     require => Exec["solr-download"]
   }
 
   file { "${solr_home}":
     ensure  => "directory",
-    owner   => $::operatingsystem ? {
-      /(?i:Debian|Ubuntu)/ => 'tomcat6',
-      default              => 'tomcat',
-    },
-    group   => $::operatingsystem ? {
-      /(?i:Debian|Ubuntu)/ => 'tomcat6',
-      default              => 'tomcat',
-    },
+    owner   => "${solr::params::tomcat_user}",
+    group   => "${solr::params::tomcat_group}",
     mode    => '0755',
+    recurse => true,
   }
 
   exec { "solr-install":

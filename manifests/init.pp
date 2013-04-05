@@ -4,17 +4,30 @@ class solr (
   $version        = "",
   $solr_home      = "/etc/solr",
 
-){
-  exec { 'apt-get update':
-    command     => '/usr/bin/apt-get update',
-    refreshonly => true,
+) inherits solr::params {
+
+  case $::operatingsystem {
+    /^(Debian|Ubuntu)$/: {
+      exec { 'apt-get update':
+        command => '/usr/bin/apt-get update'
+      }
+    }
+  }
+
+  package { "${solr::params::openjdk_package}":
+    ensure => present,
   }
 
   package { "tomcat6":
     ensure => present,
     require => $::operatingsystem ? {
-      /(?i:Debian|Ubuntu)/ => Exec['apt-get update'],
-      default => undef,
+      /(?i:Debian|Ubuntu)/ => [
+        Exec['apt-get update'],
+        Package["${solr::params::openjdk_package}"]
+      ],
+      default => [
+        Package["${solr::params::openjdk_package}"]
+      ],
     },
   }
 
