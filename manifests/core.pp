@@ -2,8 +2,9 @@ define solr::core(
   $fields,
   $copyfields,
   $spellfields
-) {
-
+)  {
+  include solr::params
+  
   $solr_home = "/etc/solr"
 
   file { "${solr_home}/${name}":
