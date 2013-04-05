@@ -11,9 +11,9 @@ class solr (
 
   package { "tomcat6":
     ensure => present,
-    require => ? $::operatingsystem {
+    require => $::operatingsystem ? {
       /(?i:Debian|Ubuntu)/ => Exec['apt-get update'],
-      default => ''
+      default => undef,
     },
   }
 
