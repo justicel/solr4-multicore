@@ -18,8 +18,14 @@ class solr::install($solr_home,$version,$install_source) {
 
   file { "${solr_home}":
     ensure  => "directory",
-    owner   => 'tomcat6',
-    group   => 'tomcat6',
+    owner   => $::operatingsystem ? {
+      /(?i:Debian|Ubuntu)/ => 'tomcat6',
+      default              => 'tomcat',
+    },
+    group   => $::operatingsystem ? {
+      /(?i:Debian|Ubuntu)/ => 'tomcat6',
+      default              => 'tomcat',
+    },
     mode    => '0755',
   }
 
