@@ -12,7 +12,6 @@ define solr::core(
     owner   => "${solr::params::tomcat_user}",
     group   => "${solr::params::tomcat_group}",
     mode    => '0755',
-    notify  => Service['tomcat6'],
   }
 
   exec { "cp-conf-data-${name}":
@@ -20,7 +19,6 @@ define solr::core(
     cwd     => "/home/vagrant/",
     path    => ["/usr/bin", "/usr/sbin/", "/bin"],
     require => File["${solr_home}/${name}"],
-    notify  => Service['tomcat6'], 
   }
 
   file {
