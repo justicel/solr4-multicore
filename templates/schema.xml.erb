@@ -109,6 +109,10 @@
    <field name="text"                type="text_de_splitting" indexed="true" stored="false" multiValued="true"/>
    <field name="_version_"           type="long"              indexed="true" stored="true"/>
    <field name="spell"               type="textSpell"         indexed="true" stored="true" multiValued="true"/>
+   <!-- dynamicFields -->
+  <% dynamicfields.each do |dynfield| -%>
+       <dynamicField name="<%= dynfield['name'] %>" type="<%= dynfield['type'] %>" indexed="<%= dynfield['indexed'] %>" stored="<%= dynfield['stored'] %>" multiValued="<%= dynfield['multiValued'] %>" required="<%= dynfield['required'] %>" />
+  <% end -%>
 
  </fields>
 

@@ -1,5 +1,6 @@
 define solr::core(
   $fields,
+  $dynamicfields,
   $copyfields,
   $spellfields
 )  {
