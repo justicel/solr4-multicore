@@ -4,7 +4,7 @@
      <% scope.lookupvar('solr::config::cores').each do |core| -%>
         <% if @numshards %>
 	<% @numshards.Array().each do |shard| %>
-	<core name="<%= core %>_shard<%= shard %>" instanceDir="<%= core %>_shard<% = shard %>" shard="shard<%= shard %>" collection="<%= core %>">
+	<core name="<%= core %>_shard<%= shard %>" instanceDir="<%= core %>_shard<%= shard %>" shard="shard<%= shard %>" collection="<%= core %>">
 	<% end -%>
 	<% else %>
         <core name="<%= core %>" instanceDir="<%= core %>" />
