@@ -1,7 +1,9 @@
 
 class solr::config(
     $solr_home,
-    $cores
+    $cores,
+    $zookeeper_hosts,
+    $numshards,
 ) {
 
     file {

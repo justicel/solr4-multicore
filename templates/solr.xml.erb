@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<solr persistent="false">
-  <cores adminPath="/admin/cores" host="" hostPort="8080">
+<solr persistent="false" <% if @zookeeper_hosts %> zkHost="<%= @zookeeper_hosts %>"<% end -%>>
+  <cores adminPath="/admin/cores" host="" hostPort="8080" <% if @zookeeper_hosts %> zkClientTimeout="20000" hostContext="/"<% end -%>>
      <% scope.lookupvar('solr::config::cores').each do |core| -%>
+        <% if @numshards %>
+	<% @numshards.Array().each do |shard| %>
+	<core name="<%= core %>_shard<%= shard %>" instanceDir="<%= core %>_shard<% = shard %>" shard="shard<%= shard %>" collection="<%= core %>">
+	<% end -%>
+	<% else %>
         <core name="<%= core %>" instanceDir="<%= core %>" />
+	<% end -%>
      <% end -%>
   </cores>
 </solr>

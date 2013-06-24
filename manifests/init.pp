@@ -3,7 +3,8 @@ class solr (
   $install_source = "",
   $version        = "",
   $solr_home      = "/etc/solr",
-
+  $zookeeper_hosts,
+  $numshards,
 ) inherits solr::params {
 
   case $::operatingsystem {
@@ -46,6 +47,8 @@ class solr (
   class { "solr::config":
     solr_home       => $solr_home,
     cores           => $active_cores,
+    zookeeper_hosts => $zookeeper_hosts,
+    numshards       => $numshards,
   }
 
 }
