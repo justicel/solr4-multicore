@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <solr persistent="false" <% if @zookeeper_hosts %> zkHost="<%= @zookeeper_hosts %>"<% end -%>>
-  <cores adminPath="/admin/cores" host="" hostPort="8080" <% if @zookeeper_hosts %> zkClientTimeout="20000" hostContext="/"<% end -%>>
+  <cores adminPath="/admin/cores" host="" hostPort="8080" <% if @zookeeper_hosts %> zkClientTimeout="20000" hostContext="solr"<% end -%>>
      <% scope.lookupvar('solr::config::cores').each do |core| -%>
         <% if @numshards -%>
         <% (1..@numshards.to_i).to_a.each do |shard| %>
