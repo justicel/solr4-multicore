@@ -17,7 +17,7 @@ define solr::core(
 
   exec { "cp-conf-data-${name}":
     command => "cp -R solr-${solr::params::solr_version}/example/multicore/core0/* ${solr_home}/${name}/",
-    cwd     => "/home/vagrant/",
+    cwd     => "/var/tmp/",
     path    => ["/usr/bin", "/usr/sbin/", "/bin"],
     require => File["${solr_home}/${name}"],
   }
