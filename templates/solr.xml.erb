@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<solr persistent="true" sharedLib="lib" <% if @zookeeper_hosts %> zkHost="<%= @zookeeper_hosts %>"<% end -%>>
+<solr persistent="true" <% if @zookeeper_hosts %> zkHost="<%= @zookeeper_hosts %>"<% end -%>>
   <cores adminPath="/admin/cores" hostPort="8080" <% if @zookeeper_hosts %> zkClientTimeout="20000" hostContext="solr"<% end -%>>
      <% scope.lookupvar('solr::config::cores').each do |core| -%>
         <% if @numshards -%>
