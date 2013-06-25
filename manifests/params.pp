@@ -13,5 +13,5 @@ class solr::params {
   }
 
   #Generic parameters
-  $solr_version = '4.2.1'
+  $solr_version = '4.3.1'
 }
