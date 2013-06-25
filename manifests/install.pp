@@ -29,6 +29,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     cwd     => "/var/tmp/",
     path    => ["/usr/bin", "/usr/sbin/", "/bin"],
     require => Exec["solr-inflate"]
+    creates => "${solr_home}/solr.war",
   }
 
   #Copy required log4j libraries to tomcat
@@ -37,6 +38,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     cwd     => "/var/tmp/",
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => Exec['solr-inflate'],
+    creates => '/usr/share/tomcat6/lib/ext',
   }
 
   #Add log4j properties file
@@ -45,6 +47,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     cwd     => '/var/tmp',
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => Exec['solr-inflate'],
+    creates => '/usr/share/tomcat6/lib/log4j.properties',
   }
 
   #Extract war file
@@ -53,7 +56,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     cwd     => "/var/tmp/${version}/example/webapps",
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => Exec['solr-inflate'],
-    creates => "/var/tmp/${version}/admin.html"
+    creates => "/var/tmp/${version}/example/webapps/admin.html"
   }
 
 }
