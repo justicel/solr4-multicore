@@ -4,10 +4,10 @@ define solr::core(
   $copyfields,
   $spellfields,
   $solr_version = $solr::params::solr_version,
+  $solr_home    = $solr::params::solr_home
 )  {
   include solr::params
 
-  $solr_home = "/etc/solr"
 
   file { "${solr_home}/${name}":
     ensure  => directory,
@@ -16,43 +16,59 @@ define solr::core(
     mode    => '0755',
   }
 
-#  exec { "cp-conf-data-${name}":
-#    command => "cp -R solr-${solr_version}/example/multicore/core0/* ${solr_home}/${name}/",
-#    cwd     => "/var/tmp/",
-#    path    => ["/usr/bin", "/usr/sbin/", "/bin"],
-#    require => File["${solr_home}/${name}"],
-#  }
-
   file {
     "${name}-solrconfig.xml":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/solrconfig.xml",
+      notify  => Service['tomcat6'],
       content => template('solr/solrconfig.xml.erb');
-#      require => Exec["cp-conf-data-${name}"];
 
     "${name}-schema.xml":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/schema.xml",
+      notify  => Service['tomcat6'],
       content => template('solr/schema.xml.erb');
-#      require => Exec["cp-conf-data-${name}"];
 
     "${name}-stopwords.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/stopwords.txt",
+      notify  => Service['tomcat6'],
       content => template('solr/stopwords.txt.erb');
-#      require => Exec["cp-conf-data-${name}"];
 
     "${name}-synonyms.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/synonyms.txt",
+      notify  => Service['tomcat6'],
       content => template('solr/synonyms.txt.erb');
-#      require => Exec["cp-conf-data-${name}"];
 
     "${name}-protwords.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/protwords.txt",
+      notify  => Service['tomcat6'],
       content => template('solr/protwords.txt.erb');
-#      require => Exec["cp-conf-data-${name}"];
+  }
+
+~>
+
+  #Exec installation of solr configs to zookeeper if needed
+  if $solr::zookeeper_hosts {
+    exec { "${name}-upconfig":
+      command => "java -classpath /var/tmp/${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
+                  org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
+                  -cmd upconfig -confdir ${solr_home}/${name}/conf \
+                  -confname ${name}",
+      path    => ['/usr/bin', '/usr/sbin', '/bin'],
+      require => Exec['war-extract'],
+    }
+ 
+    exec { "${name}-linkconfig":
+      command => "java -classpath /var/tmp/${solr_version}example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
+                  org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
+                  -cmd linkconfig -collection ${name} -confname ${name}",
+      path    => ['/usr/bin', '/usr/sbin', '/bin'],
+      require => Exec['war-extract'],
+    }
+
   }
 
 }

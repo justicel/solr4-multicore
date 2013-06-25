@@ -2,7 +2,7 @@ class solr (
   $active_cores    = [],
   $install_source  = "",
   $version         = "",
-  $solr_home       = "/etc/solr",
+  $solr_home       = $solr::params::solr_home,
   $zookeeper_hosts = false,
   $numshards       = false,
 ) inherits solr::params {

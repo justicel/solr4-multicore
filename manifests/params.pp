@@ -14,4 +14,5 @@ class solr::params {
 
   #Generic parameters
   $solr_version = '4.3.1'
+  $solr_home    = '/etc/solr'
 }
