@@ -28,31 +28,31 @@ define solr::core(
       ensure  => file,
       path    => "${solr_home}/${name}/conf/solrconfig.xml",
       content => template('solr/solrconfig.xml.erb'),
-      require => Exec["cp-conf-data-${name}"];
+#      require => Exec["cp-conf-data-${name}"];
 
     "${name}-schema.xml":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/schema.xml",
       content => template('solr/schema.xml.erb'),
-      require => Exec["cp-conf-data-${name}"];
+#      require => Exec["cp-conf-data-${name}"];
 
     "${name}-stopwords.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/stopwords.txt",
       content => template('solr/stopwords.txt.erb'),
-      require => Exec["cp-conf-data-${name}"];
+#      require => Exec["cp-conf-data-${name}"];
 
     "${name}-synonyms.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/synonyms.txt",
       content => template('solr/synonyms.txt.erb'),
-      require => Exec["cp-conf-data-${name}"];
+#      require => Exec["cp-conf-data-${name}"];
 
     "${name}-protwords.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/protwords.txt",
       content => template('solr/protwords.txt.erb'),
-      require => Exec["cp-conf-data-${name}"];
+#      require => Exec["cp-conf-data-${name}"];
   }
 
 }
