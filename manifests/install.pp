@@ -47,7 +47,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
 
   #Add log4j properties file
   exec { "log4j-properties":
-    command => "cp ${version}/example/cloud-scripts/log4j.properties ${solr_home}/classes"
+    command => "cp ${version}/example/cloud-scripts/log4j.properties ${solr_home}/classes",
     cwd     => '/var/tmp',
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => File["${solr_home}/classes"],
