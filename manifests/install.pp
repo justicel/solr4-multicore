@@ -50,7 +50,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
   #Extract war file
   exec { "war-extract":
     command => "jar xf solr.war",
-    cwd     => "/var/tmp/${version}",
+    cwd     => "/var/tmp/${version}/example/webapps",
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => Exec['solr-inflate'],
     creates => "/var/tmp/${version}/admin.html"
