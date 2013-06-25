@@ -1,5 +1,4 @@
-
-class solr::config(
+class solr::config (
     $solr_home,
     $cores,
     $zookeeper_hosts = false,
@@ -7,7 +6,7 @@ class solr::config(
 ) {
 
     file {
-        "/etc/tomcat6/Catalina/localhost/solr.xml":
+        '/etc/tomcat6/Catalina/localhost/solr.xml':
         ensure  => file,
         owner   => 'root',
         group   => 'root',
@@ -23,7 +22,7 @@ class solr::config(
         content => template('solr/solr.xml.erb'),
         require => Exec['solr-install'];
 
-        "solrinitscript":
+        'solrinitscript':
         ensure  => file,
         path    => '/etc/init.d/solr',
         owner   => 'root',
