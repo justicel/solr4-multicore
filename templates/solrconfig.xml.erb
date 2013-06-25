@@ -21,14 +21,23 @@
  It is *not* a good example to work from.
 -->
 <config>
-    <luceneMatchVersion>LUCENE_40</luceneMatchVersion>
+    <luceneMatchVersion>LUCENE_43</luceneMatchVersion>
     <!--  The DirectoryFactory to use for indexes.
 solr.StandardDirectoryFactory, the default, is filesystem based.
 solr.RAMDirectoryFactory is memory based, not persistent, and doesn't work with replication. -->
     <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
 
 
-    <updateHandler class="solr.DirectUpdateHandler2" />
+    <updateHandler class="solr.DirectUpdateHandler2">
+        <autoCommit>
+          <maxTime>15000</maxTime>
+          <openSearcher>false</openSearcher>
+        </autoCommit>
+
+        <updateLog>
+          <str name="dir">${solr.data.dir:}</str>
+        </updateLog>
+    </updateHandler>
 
     <requestDispatcher handleSelect="true" >
         <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048" />
