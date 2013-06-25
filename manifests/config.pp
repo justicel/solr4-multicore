@@ -21,7 +21,7 @@ class solr::config(
         group   => 'root',
         mode    => '0644',
         content => template('solr/solr.xml.erb'),
-        require => Exec['solr-install'],
+        require => Exec['solr-install'];
 
         "solrinitscript":
         ensure  => file,
