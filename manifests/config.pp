@@ -22,7 +22,6 @@ class solr::config(
         mode    => '0644',
         content => template('solr/solr.xml.erb'),
         require => Exec['solr-install'],
-        notify  => Service['tomcat6'];
 
         "solrinitscript":
         ensure  => file,
