@@ -45,7 +45,10 @@ solr.RAMDirectoryFactory is memory based, not persistent, and doesn't work with 
 
     <requestHandler name="standard" class="solr.StandardRequestHandler" default="true" />
     <requestHandler name="/update" class="solr.UpdateRequestHandler" />
-    <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
+    <requestHandler name="/admin/" class="solr.admin.AdminHandlers" />
+<!--    <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" /> -->
+    <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
+
 
 
     <searchComponent name="spell" class="solr.SpellCheckComponent">
@@ -75,6 +78,12 @@ solr.RAMDirectoryFactory is memory based, not persistent, and doesn't work with 
         <arr name="last-components">
             <str>spell</str>
         </arr>
+    </requestHandler>
+
+    <requestHandler name="/get" class="solr.RealTimeGetHandler">
+        <lst name="defaults">
+            <str name="omitHeader">true</str>
+        </lst>
     </requestHandler>
 
     <!-- config for the admin interface -->
