@@ -103,14 +103,14 @@
  <fields>   
   <!-- general -->
 
-   <% fields.each do |field| -%>
+   <% fields.sort.each do |field| -%>
        <field name="<%= field['name'] %>"  type="<%= field['type'] %>" indexed="<%= field['indexed'] %>" stored="<%= field['stored'] %>"  multiValued="<%= field['multiValued'] %>" required="<%= field['required'] %>"/>
    <% end -%>
    <field name="text"                type="text_de_splitting" indexed="true" stored="false" multiValued="true"/>
    <field name="_version_"           type="long"              indexed="true" stored="true"/>
    <field name="spell"               type="textSpell"         indexed="true" stored="true" multiValued="true"/>
    <!-- dynamicFields -->
-  <% dynamicfields.each do |dynfield| -%>
+  <% dynamicfields.sort.each do |dynfield| -%>
        <dynamicField name="<%= dynfield['name'] %>" type="<%= dynfield['type'] %>" indexed="<%= dynfield['indexed'] %>" stored="<%= dynfield['stored'] %>" multiValued="<%= dynfield['multiValued'] %>" required="<%= dynfield['required'] %>" />
   <% end -%>
 
@@ -119,11 +119,11 @@
  <!-- field to use to determine and enforce document uniqueness. -->
   <!-- field to use to determine and enforce document uniqueness. -->
     <uniqueKey>id</uniqueKey>
-    <% copyfields.each do |field| -%>
+    <% copyfields.sort.each do |field| -%>
         <copyField source="<%= field['source'] %>" dest="text"/>
     <% end -%>
 
-    <% spellfields.each do |field| -%>
+    <% spellfields.sort.each do |field| -%>
        <copyField source="<%= field['source'] %>" dest="spell"/>
     <% end -%>
 
