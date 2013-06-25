@@ -31,4 +31,11 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     require => Exec["solr-inflate"]
   }
 
+  exec { "solrlibs-install":
+    command => "cp -R ${version}/example/lib/ext /usr/share/tomcat6/lib",
+    cwd     => "/var/tmp/",
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    require => Exec['solr-inflate'],
+  }
+
 }
