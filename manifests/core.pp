@@ -51,7 +51,7 @@ define solr::core(
 ~>
 
   #Exec installation of solr configs to zookeeper if needed
-  if $solr::zookeeper_hosts {
+  if $solr::zookeeper_hosts  == true {
     exec { "${name}-upconfig":
       command => "java -classpath /var/tmp/${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
