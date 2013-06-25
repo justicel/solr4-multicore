@@ -5,7 +5,6 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     cwd => "/var/tmp",
     creates => "/var/tmp/${version}.tgz",
     path => ["/usr/bin", "/usr/sbin/"],
-    require => Service['tomcat6'],
   }
 
   exec { "solr-inflate":
