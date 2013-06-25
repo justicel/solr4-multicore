@@ -20,31 +20,26 @@ define solr::core(
     "${name}-solrconfig.xml":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/solrconfig.xml",
-      notify  => Service['tomcat6'],
       content => template('solr/solrconfig.xml.erb');
 
     "${name}-schema.xml":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/schema.xml",
-      notify  => Service['tomcat6'],
       content => template('solr/schema.xml.erb');
 
     "${name}-stopwords.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/stopwords.txt",
-      notify  => Service['tomcat6'],
       content => template('solr/stopwords.txt.erb');
 
     "${name}-synonyms.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/synonyms.txt",
-      notify  => Service['tomcat6'],
       content => template('solr/synonyms.txt.erb');
 
     "${name}-protwords.txt":
       ensure  => file,
       path    => "${solr_home}/${name}/conf/protwords.txt",
-      notify  => Service['tomcat6'],
       content => template('solr/protwords.txt.erb');
   }
 
