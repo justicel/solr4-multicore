@@ -46,7 +46,7 @@ define solr::core(
   #Exec installation of solr configs to zookeeper if needed
   if $solr::zookeeper_hosts {
     exec { "${name}-upconfig":
-      command => "java -classpath /var/tmp/${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
+      command => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
                   -cmd upconfig -confdir ${solr_home}/${name}/conf \
                   -confname ${name}",
@@ -55,7 +55,7 @@ define solr::core(
     }
  
     exec { "${name}-linkconfig":
-      command => "java -classpath /var/tmp/${solr_version}example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
+      command => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
                   -cmd linkconfig -collection ${name} -confname ${name}",
       path    => ['/usr/bin', '/usr/sbin', '/bin'],
