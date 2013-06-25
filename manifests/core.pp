@@ -48,10 +48,8 @@ define solr::core(
       content => template('solr/protwords.txt.erb');
   }
 
-~>
-
   #Exec installation of solr configs to zookeeper if needed
-  if $solr::zookeeper_hosts  == true {
+  if $solr::zookeeper_hosts {
     exec { "${name}-upconfig":
       command => "java -classpath /var/tmp/${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
