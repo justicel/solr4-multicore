@@ -28,7 +28,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     command => "cp -R ${version}/example/solr/bin ${solr_home}/bin | cp ${version}/example/multicore/zoo.cfg ${solr_home}/ | cp -R ${version}/example/webapps/solr.war ${solr_home}/",
     cwd     => "/var/tmp/",
     path    => ["/usr/bin", "/usr/sbin/", "/bin"],
-    require => Exec["solr-inflate"]
+    require => Exec["solr-inflate"],
     creates => "${solr_home}/solr.war",
   }
 
@@ -56,7 +56,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     cwd     => "/var/tmp/${version}/example/webapps",
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => Exec['solr-inflate'],
-    creates => "/var/tmp/${version}/example/webapps/admin.html"
+    creates => "/var/tmp/${version}/example/webapps/admin.html",
   }
 
 }
