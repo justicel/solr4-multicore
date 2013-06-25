@@ -44,7 +44,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     command => "cp ${version}/example/cloud-scripts/log4j.properties /usr/share/tomcat6/lib",
     cwd     => '/var/tmp',
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
-    require => File["${solr_home}/classes"],
+    require => Exec['solr-inflate'],
   }
 
 }
