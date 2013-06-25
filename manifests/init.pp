@@ -1,10 +1,10 @@
 class solr (
-  $active_cores   = [],
-  $install_source = "",
-  $version        = "",
-  $solr_home      = "/etc/solr",
-  $zookeeper_hosts,
-  $numshards,
+  $active_cores    = [],
+  $install_source  = "",
+  $version         = "",
+  $solr_home       = "/etc/solr",
+  $zookeeper_hosts = false,
+  $numshards       = false,
 ) inherits solr::params {
 
   case $::operatingsystem {

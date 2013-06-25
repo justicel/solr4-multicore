@@ -2,8 +2,8 @@
 class solr::config(
     $solr_home,
     $cores,
-    $zookeeper_hosts,
-    $numshards,
+    $zookeeper_hosts = false,
+    $numshards       = false,
 ) {
 
     file {
@@ -21,7 +21,8 @@ class solr::config(
         group   => 'root',
         mode    => '0644',
         content => template('solr/solr.xml.erb'),
-        require => Exec['solr-install'];
+        require => Exec['solr-install'],
+        notify  => Service['tomcat6'];
 
         "solrinitscript":
         ensure  => file,
