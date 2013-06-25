@@ -16,12 +16,12 @@ define solr::core(
     mode    => '0755',
   }
 
-  exec { "cp-conf-data-${name}":
-    command => "cp -R solr-${solr_version}/example/multicore/core0/* ${solr_home}/${name}/",
-    cwd     => "/var/tmp/",
-    path    => ["/usr/bin", "/usr/sbin/", "/bin"],
-    require => File["${solr_home}/${name}"],
-  }
+#  exec { "cp-conf-data-${name}":
+#    command => "cp -R solr-${solr_version}/example/multicore/core0/* ${solr_home}/${name}/",
+#    cwd     => "/var/tmp/",
+#    path    => ["/usr/bin", "/usr/sbin/", "/bin"],
+#    require => File["${solr_home}/${name}"],
+#  }
 
   file {
     "${name}-solrconfig.xml":
