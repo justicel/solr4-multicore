@@ -36,6 +36,7 @@ class solr (
     solr_home       => $solr_home,
     install_source  => $install_source,
     version         => $version,
+    require         => Package['tomcat6'],
   }
 
   class { 'solr::config':
@@ -43,6 +44,7 @@ class solr (
     cores           => $active_cores,
     zookeeper_hosts => $zookeeper_hosts,
     numshards       => $numshards,
+    require         => Package['tomcat6'],
   }
 
 }
