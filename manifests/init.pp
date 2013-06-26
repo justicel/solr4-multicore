@@ -19,7 +19,7 @@ class solr (
     ensure => present,
   }
 
-  package { "tomcat6":
+  package { 'tomcat6':
     ensure => present,
     require => $::operatingsystem ? {
       /(?i:Debian|Ubuntu)/ => [
@@ -32,19 +32,13 @@ class solr (
     },
   }
 
-  service { "tomcat6":
-    ensure => running,
-    require => Package["tomcat6"],
-  }
-
-  class { "solr::install":
+  class { 'solr::install':
     solr_home       => $solr_home,
     install_source  => $install_source,
     version         => $version,
-    require         => Service['tomcat6'],
   }
 
-  class { "solr::config":
+  class { 'solr::config':
     solr_home       => $solr_home,
     cores           => $active_cores,
     zookeeper_hosts => $zookeeper_hosts,

@@ -1,5 +1,11 @@
 class solr::install($solr_home,$version,$install_source) inherits solr::params {
 
+  #Start tomcat6 if necessary
+  service { 'tomcat6':
+    ensure  => running,
+    require => Package['tomcat6'],
+  }
+
   exec { "solr-download":
     command => "wget ${install_source}",
     cwd => "/var/tmp",
