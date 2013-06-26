@@ -26,7 +26,6 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     owner   => "${solr::params::tomcat_user}",
     group   => "${solr::params::tomcat_group}",
     mode    => '0755',
-    recurse => true,
   }
 
   exec { "solr-install":
@@ -36,6 +35,29 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     require => Exec["solr-inflate"],
     creates => "${solr_home}/solr.war",
     before  => Service['tomcat6'],
+  }
+
+  file { "${solr_home}/bin":
+    ensure  => directory,
+    owner   => "${solr::params::tomcat_user}",
+    group   => "${solr::params::tomcat_group}",
+    mode    => '0755',
+    recurse => true,
+    require => Exec['solr-install'],
+  }
+  file { "${solr_home}/zoo.cfg":
+    ensure  => file,
+    owner   => "${solr::params::tomcat_user}",
+    group   => "${solr::params::tomcat_group}",
+    mode    => '0644',
+    require => Exec['solr-install'],
+  }
+  file { "${solr_home}/solr.war":
+    ensure  => file,
+    owner   => "${solr::params::tomcat_user}",
+    group   => "${solr::params::tomcat_group}",
+    mode    => '0644',
+    require => Exec['solr-install'],
   }
 
   #Copy required log4j libraries to tomcat
