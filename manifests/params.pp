@@ -14,7 +14,7 @@ class solr::params {
 
   #Generic parameters
   $solr_home       = '/etc/solr'
-  $install_source  = 'http://mirrors.gigenet.com/apache/lucene/solr/4.3.1/solr-4.3.1.tgz',
-  $version         = 'solr-4.3.1',
+  $install_source  = 'http://mirrors.gigenet.com/apache/lucene/solr/4.3.1/solr-4.3.1.tgz'
+  $version         = 'solr-4.3.1'
 
 }
