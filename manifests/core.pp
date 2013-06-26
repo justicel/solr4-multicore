@@ -60,7 +60,7 @@ define solr::core(
   if $solr::zookeeper_hosts {
     exec {
       "${name}-upconfig":
-        command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/ext/* \
+        command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
                   -cmd upconfig -confdir ${solr_home}/${name}/conf \
                   -confname ${name}",
@@ -71,7 +71,7 @@ define solr::core(
         notify      => Service['tomcat6'];
 
       "${name}-linkconfig":
-        command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/ext/* \
+        command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
                   -cmd linkconfig -collection ${name} -confname ${name}",
         path        => ['/usr/bin', '/usr/sbin', '/bin'],

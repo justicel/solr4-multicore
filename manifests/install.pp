@@ -62,11 +62,11 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
 
   #Copy required log4j libraries to tomcat
   exec { "solrlibs-install":
-    command => "cp -R ${version}/example/lib/ext /usr/share/tomcat6/lib",
+    command => "cp -R ${version}/example/lib/ext/ /usr/share/tomcat6/lib",
     cwd     => "/var/tmp/",
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => Exec['solr-inflate'],
-    creates => '/usr/share/tomcat6/lib/ext',
+    creates => '/usr/share/tomcat6/lib/log4j*.jar',
   }
 
   #Add log4j properties file
