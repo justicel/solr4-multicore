@@ -3,7 +3,7 @@ define solr::core(
   $dynamicfields,
   $copyfields,
   $spellfields,
-  $version = $solr::params::version,
+  $version      = $solr::params::version,
   $solr_home    = $solr::params::solr_home
 )  {
   include solr::params
