@@ -1,7 +1,7 @@
 class solr (
   $active_cores    = [],
-  $install_source  = "",
-  $version         = "",
+  $install_source  = $solr::params::install_source,
+  $version         = $solr::params::version,
   $solr_home       = $solr::params::solr_home,
   $zookeeper_hosts = false,
   $numshards       = false,

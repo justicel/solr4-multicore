@@ -3,7 +3,7 @@ define solr::core(
   $dynamicfields,
   $copyfields,
   $spellfields,
-  $solr_version = $solr::params::solr_version,
+  $version = $solr::params::version,
   $solr_home    = $solr::params::solr_home
 )  {
   include solr::params
@@ -60,7 +60,7 @@ define solr::core(
   if $solr::zookeeper_hosts {
     exec {
       "${name}-upconfig":
-        command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
+        command     => "java -classpath /var/tmp/${version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
                   -cmd upconfig -confdir ${solr_home}/${name}/conf \
                   -confname ${name}",
@@ -71,7 +71,7 @@ define solr::core(
         notify      => Service['tomcat6'];
 
       "${name}-linkconfig":
-        command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
+        command     => "java -classpath /var/tmp/${version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
                   -cmd linkconfig -collection ${name} -confname ${name}",
         path        => ['/usr/bin', '/usr/sbin', '/bin'],
