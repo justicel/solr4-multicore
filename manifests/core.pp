@@ -9,12 +9,20 @@ define solr::core(
   include solr::params
 
 
-  file { "${solr_home}/${name}":
-    ensure  => directory,
-    owner   => "${solr::params::tomcat_user}",
-    group   => "${solr::params::tomcat_group}",
-    mode    => '0755',
-  }
+  file { 
+    "${solr_home}/${name}":
+      ensure  => directory,
+      owner   => "${solr::params::tomcat_user}",
+      group   => "${solr::params::tomcat_group}",
+      mode    => '0755';
+
+    "${solr_home}/${name}/conf":
+      ensure  => directory,
+      owner   => "${solr::params::tomcat_user}",
+      group   => "${solr::params::tomcat_group}",
+      mode    => '0755',
+      require => File["${solr_home}/${name}"];
+  } ->
 
   file {
     "${name}-solrconfig.xml":
@@ -50,26 +58,26 @@ define solr::core(
 
   #Exec installation of solr configs to zookeeper if needed
   if $solr::zookeeper_hosts {
-    exec { "${name}-upconfig":
-      command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
+    exec {
+      "${name}-upconfig":
+        command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
                   -cmd upconfig -confdir ${solr_home}/${name}/conf \
                   -confname ${name}",
-      path        => ['/usr/bin', '/usr/sbin', '/bin'],
-      require     => Exec['war-extract'],
-      refreshonly => true,
-      before      => Exec["${name}-linkconfig"],
-      notify      => Service['tomcat6'],
-    }
- 
-    exec { "${name}-linkconfig":
-      command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
+        path        => ['/usr/bin', '/usr/sbin', '/bin'],
+        require     => Exec['war-extract'],
+        refreshonly => true,
+        before      => Exec["${name}-linkconfig"],
+        notify      => Service['tomcat6'];
+
+      "${name}-linkconfig":
+        command     => "java -classpath /var/tmp/solr-${solr_version}/example/webapps/WEB-INF/lib/*:/usr/share/tomcat6/lib/* \
                   org.apache.solr.cloud.ZkCLI -zkhost ${solr::zookeeper_hosts} \
                   -cmd linkconfig -collection ${name} -confname ${name}",
-      path        => ['/usr/bin', '/usr/sbin', '/bin'],
-      refreshonly => true,
-      require     => Exec['war-extract'],
-      notify      => Service['tomcat6'],
+        path        => ['/usr/bin', '/usr/sbin', '/bin'],
+        refreshonly => true,
+        require     => Exec['war-extract'],
+        notify      => Service['tomcat6'];
     }
 
   }
