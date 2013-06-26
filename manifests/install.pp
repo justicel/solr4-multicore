@@ -35,6 +35,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     path    => ["/usr/bin", "/usr/sbin/", "/bin"],
     require => Exec["solr-inflate"],
     creates => "${solr_home}/solr.war",
+    before  => Service['tomcat6'],
   }
 
   #Copy required log4j libraries to tomcat
@@ -53,6 +54,7 @@ class solr::install($solr_home,$version,$install_source) inherits solr::params {
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => Exec['solr-inflate'],
     creates => '/usr/share/tomcat6/lib/log4j.properties',
+    before  => Service['tomcat6'],
   }
 
   #Extract war file

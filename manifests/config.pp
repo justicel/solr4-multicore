@@ -12,6 +12,7 @@ class solr::config (
       group   => 'root',
       mode    => '0644',
       content => template('solr/catalina.solr.xml.erb'),
+      notify  => Service['tomcat6'],
       require => Exec['solr-install'];
 
     "${solr_home}/solr.xml":
@@ -20,6 +21,7 @@ class solr::config (
       group   => 'root',
       mode    => '0644',
       content => template('solr/solr.xml.erb'),
+      notify  => Service['tomcat6'],
       require => Exec['solr-install'];
 
     'solrinitscript':
