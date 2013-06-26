@@ -86,6 +86,55 @@ solr.RAMDirectoryFactory is memory based, not persistent, and doesn't work with 
         </lst>
     </requestHandler>
 
+    <!-- Enable jmx monitoring, etc -->
+    <jmx />
+
+    <query>
+        <maxBooleanClauses>1024</maxBooleanClauses>
+
+        <filterCache class="solr.FastLRUCache"
+                     size="512"
+                     initialSize="512"
+                     autowarmCount="0"/>
+
+        <queryResultCache class="solr.LRUCache"
+                          size="512"
+                          initialSize="512"
+                          autowarmCount="0"/>
+
+        <documentCache class="solr.LRUCache"
+                       size="512"
+                       initialSize="512"
+                       autowarmCount="0"/>
+
+        <enableLazyFieldLoading>true</enableLazyFieldLoading>
+
+       <queryResultWindowSize>20</queryResultWindowSize>
+
+       <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+
+        <listener event="newSearcher" class="solr.QuerySenderListener">
+          <arr name="queries">
+            <!--
+               <lst><str name="q">solr</str><str name="sort">price asc</str></lst>
+               <lst><str name="q">rocks</str><str name="sort">weight asc</str></lst>
+              -->
+          </arr>
+        </listener>
+        <listener event="firstSearcher" class="solr.QuerySenderListener">
+          <arr name="queries">
+            <lst>
+              <str name="q">static firstSearcher warming in solrconfig.xml</str>
+            </lst>
+          </arr>
+        </listener>
+
+        <useColdSearcher>false</useColdSearcher>
+
+        <maxWarmingSearchers>2</maxWarmingSearchers>
+
+      </query>
+
     <!-- config for the admin interface -->
     <admin>
         <defaultQuery>admin</defaultQuery>
