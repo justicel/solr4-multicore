@@ -59,6 +59,7 @@ define solr::core(
       require     => Exec['war-extract'],
       refreshonly => true,
       before      => Exec["${name}-linkconfig"],
+      notify      => Service['tomcat6'],
     }
  
     exec { "${name}-linkconfig":
@@ -68,6 +69,7 @@ define solr::core(
       path        => ['/usr/bin', '/usr/sbin', '/bin'],
       refreshonly => true,
       require     => Exec['war-extract'],
+      notify      => Service['tomcat6'],
     }
 
   }
